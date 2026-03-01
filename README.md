@@ -219,10 +219,10 @@ The app runs on port 3000 by default. Set `PORT` environment variable to change 
 
 On Windows, Husky Git hooks **must be run from Git Bash**, not PowerShell or CMD.
 
-**Solution: Use Git Bash terminal**
+### Recommended: Use Git Bash terminal
 
 1. Open Git Bash (right-click in your project folder → "Git Bash Here")
-2. Run your Git commands from Git Bash instead of PowerShell:
+2. Run your Git commands from Git Bash:
 
 ```bash
 git add .
@@ -230,18 +230,19 @@ git commit -m "Your message"  # pre-commit hook runs here
 git push                      # pre-push hook runs here
 ```
 
-**Why?** Windows PowerShell/CMD cannot execute shell (sh) scripts directly. Git Bash provides a POSIX-compatible shell environment that Husky requires.
+**Why?** Windows PowerShell/CMD cannot execute shell (`.sh`) scripts directly. Husky uses POSIX shell scripts, requiring Git Bash or WSL2 Bash.
 
-**If you still need to use PowerShell:**
+### Alternative: PowerShell with --no-verify flag
 
-You can bypass hooks temporarily with:
+If you prefer PowerShell, bypass hooks during development:
 
 ```powershell
+git add .
 git commit -m "Your message" --no-verify    # Skip pre-commit
 git push --no-verify                        # Skip pre-push
 ```
 
-But this is **not recommended** — hooks exist to protect code quality.
+**Note:** While `--no-verify` skips hooks, code quality is validated on GitHub via CI/CD. Ensure `pnpm validate` passes locally.
 
 **Verify hooks are configured:**
 
@@ -250,17 +251,25 @@ git config core.hooksPath          # Should print ".husky"
 ls -la .husky/                     # Should show pre-commit and pre-push
 ```
 
-**ESLint or TypeScript errors blocking your push?**
+**Manual validation (any terminal)**
 
-Run the full check locally to see what needs fixing:
+Even without hooks, validate locally with:
 
-```bash
+```powershell
+pnpm validate    # Runs: format → lint → typecheck → build
+```
+
+**ESLint or TypeScript errors?**
+
+Check issues with:
+
+```powershell
 pnpm validate
 ```
 
 **Port 3000 already in use?**
 
-```bash
+```powershell
 pnpm dev -- -p 3001
 ```
 
