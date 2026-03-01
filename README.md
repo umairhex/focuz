@@ -215,18 +215,39 @@ The app runs on port 3000 by default. Set `PORT` environment variable to change 
 
 ## Troubleshooting
 
-**Husky hooks not running?**
+**Husky hooks not running on Windows?**
 
-Make sure the hooks are executable and Husky is initialized:
+On Windows, Husky Git hooks **must be run from Git Bash**, not PowerShell or CMD.
+
+**Solution: Use Git Bash terminal**
+
+1. Open Git Bash (right-click in your project folder → "Git Bash Here")
+2. Run your Git commands from Git Bash instead of PowerShell:
 
 ```bash
-pnpm prepare
+git add .
+git commit -m "Your message"  # pre-commit hook runs here
+git push                      # pre-push hook runs here
 ```
 
-On macOS/Linux you may need:
+**Why?** Windows PowerShell/CMD cannot execute shell (sh) scripts directly. Git Bash provides a POSIX-compatible shell environment that Husky requires.
+
+**If you still need to use PowerShell:**
+
+You can bypass hooks temporarily with:
+
+```powershell
+git commit -m "Your message" --no-verify    # Skip pre-commit
+git push --no-verify                        # Skip pre-push
+```
+
+But this is **not recommended** — hooks exist to protect code quality.
+
+**Verify hooks are configured:**
 
 ```bash
-chmod +x .husky/pre-commit .husky/pre-push
+git config core.hooksPath          # Should print ".husky"
+ls -la .husky/                     # Should show pre-commit and pre-push
 ```
 
 **ESLint or TypeScript errors blocking your push?**
