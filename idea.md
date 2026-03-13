@@ -20,6 +20,21 @@ A user opens the app, configures their interval duration, starts a session, and 
 
 ---
 
+## Tech Stack
+
+- **Frontend**: Next.js, React, TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Form Handling**: React Hook Form
+- **Validation**: Zod
+- **UI Components**: Lucide React, Next Themes
+- **Data Parsing**: PapaParse
+- **Client Storage**: localStorage
+- **Architecture**: Client-side focus app (zero backend)
+- **PWA Support**: Web App Manifest
+
+---
+
 ## Key Features
 
 ### Precision Interval Timer
