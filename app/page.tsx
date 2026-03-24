@@ -69,6 +69,7 @@ const Page = () => {
   const [state, setState] = useState<AppState>(defaultState);
   const [currentView, setCurrentView] = useState("dashboard");
   const [paused, setPaused] = useState(false);
+  const [timerTrigger, setTimerTrigger] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const [ivElapsed, setIvElapsed] = useState(0);
   const [toastMsg, setToastMsg] = useState("");
@@ -386,6 +387,7 @@ const Page = () => {
 
     setSetupOpen(false);
     setCurrentView("session");
+    setTimerTrigger((c) => c + 1);
   }, [
     saveState,
     toast,
@@ -804,6 +806,7 @@ const Page = () => {
     ivDurationRef,
     ivFiredRef,
     rafRef,
+    timerTrigger,
   ]);
 
   /* ═══════════════════════════════════════════════════════════════════════════
@@ -2209,6 +2212,7 @@ const Page = () => {
                       setPaused(false);
                       setPendingRecovery(null);
                       setCurrentView("session");
+                      setTimerTrigger((c) => c + 1);
                       toast("Session resumed!");
                     }}
                   >
